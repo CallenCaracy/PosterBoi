@@ -23,6 +23,7 @@ _Planned features:_
 
 ## Project Structure
 
+```bash
 PosterBoi/
 ├─ API/                 # Controllers, API entry point
 │  ├─ Controllers/      # Versioned controllers (v1, v2)
@@ -38,6 +39,7 @@ PosterBoi/
 ├─ Program.cs           # Entry point with DI, middleware setup
 ├─ Startup.cs           # Entry point with DI, middleware setup
 ├─ appsettings.json     # Configuration
+```
 
 ---
 
