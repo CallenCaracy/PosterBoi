@@ -1,8 +1,8 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using PosterBoi.Core.Configs;
-using PosterBoi.Core.Interfaces;
 using Microsoft.Extensions.Options;
+using PosterBoi.Core.Interfaces.Services;
 
 namespace PosterBoi.Infrastructure.Services
 {

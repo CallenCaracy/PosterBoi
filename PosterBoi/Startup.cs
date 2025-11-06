@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PosterBoi.API.Extensions;
-using PosterBoi.Core.Interfaces;
+using PosterBoi.Core.Interfaces.Repositories;
+using PosterBoi.Core.Interfaces.Services;
 using PosterBoi.Infrastructure.Data;
+using PosterBoi.Infrastructure.Repositories;
 using PosterBoi.Infrastructure.Services;
 
 namespace PosterBoi
@@ -34,6 +36,8 @@ namespace PosterBoi
                 options.UseSqlServer(_configuration.GetConnectionString("PosterBoiDBConnection")));
 
             services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPostService, PostService>();
 
             services.AddCloudinaryConfiguration(_configuration);
         }
