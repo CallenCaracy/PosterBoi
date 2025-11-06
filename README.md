@@ -93,4 +93,23 @@ PosterBoi/
     https://localhost:{port}/swagger/index.html
     ```
 
+6. Database Operations
+    ## Normal
+    ```bash
+    dotnet ef database drop
+    dotnet ef migrations remove
+    dotnet ef migrations add InitialCreate
+    dotnet ef database update
+    ```
+
+    ## Fully Purge
+    ```bash
+    Remove-Item -Recurse -Force .\Migrations
+    Remove-Item -Recurse -Force .\bin
+    Remove-Item -Recurse -Force .\obj
+    dotnet clean
+    dotnet build
+    dotnet ef migrations add Init
+    dotnet ef database update
+    ```
 ---

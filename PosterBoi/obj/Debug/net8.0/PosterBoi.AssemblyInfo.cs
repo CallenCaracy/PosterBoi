@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PosterBoi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2dd26ace52cfcc7dd3a4b1545da13017abcd38a9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4ae695080d0f5661f35dc1b2152393e67d1254a")]
 [assembly: System.Reflection.AssemblyProductAttribute("PosterBoi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PosterBoi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
