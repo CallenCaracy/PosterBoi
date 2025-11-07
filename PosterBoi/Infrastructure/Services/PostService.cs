@@ -68,9 +68,9 @@ namespace PosterBoi.Infrastructure.Services
             return Result<Post?>.Ok(post); 
         }
 
-        public async Task<Result<IEnumerable<Post>>> GetAllPostsAsync()
+        public async Task<Result<IEnumerable<Post>>> GetAllPostsAsync(DateTime? after, int limit)
         {
-            var posts = await _postRepository.GetAllPostsAsync();
+            var posts = await _postRepository.GetAllPostsAsync(after, limit);
             if (posts == null || !posts.Any())
                 return Result<IEnumerable<Post>>.Fail("No posts found.");
             return Result<IEnumerable<Post>>.Ok(posts);

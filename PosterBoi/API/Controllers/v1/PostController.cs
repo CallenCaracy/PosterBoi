@@ -26,9 +26,9 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpGet("getAllPosts")]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<IActionResult> GetAllPosts(DateTime? after, int limit)
         {
-            var result = await _postService.GetAllPostsAsync();
+            var result = await _postService.GetAllPostsAsync(after, limit);
             if (!result.Success) return BadRequest(result.Message);
             return Ok(result.Data);
         }
