@@ -1,4 +1,4 @@
-﻿namespace PosterBoi.Core.Interfaces
+﻿namespace PosterBoi.Core.Interfaces.Services
 {
     public interface ICloudinaryService
     {

@@ -26,8 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Interfaces\" />
-    <Folder Include="Infrastructure\Repositories\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

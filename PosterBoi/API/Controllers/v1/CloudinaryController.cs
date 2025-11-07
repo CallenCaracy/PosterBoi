@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PosterBoi.Core.DTOs;
-using PosterBoi.Core.Interfaces;
+using PosterBoi.Core.Interfaces.Services;
 
 namespace PosterBoi.API.Controllers.v1
 {
