@@ -21,9 +21,12 @@ namespace PosterBoi.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<Post>> GetAllPostsAsync()
+        public async Task<IEnumerable<Post>> GetAllPostsAsync(DateTime? after, int limit)
         {
-            return await _context.Posts.ToListAsync();
+            var query = _context.Posts.OrderByDescending(post => post.CreatedAt).AsQueryable();
+            if (after.HasValue)
+                query = query.Where(p => p.CreatedAt < after.Value);
+            return await query.Take(limit).ToListAsync();
         }
 
         public async Task<Post?> GetByIdAsync(int Id)

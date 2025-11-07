@@ -15,9 +15,9 @@
 
 _Planned features:_  
 
-- WebSocket chat  
-- User authentication  
-- Likes and reactions system  
+- WebSocket chat                -> Not Started
+- User authentication           -> WIP
+- Likes and reactions system    -> Not Started
 
 ---
 
@@ -35,10 +35,11 @@ PosterBoi/
 │  ├─ Interfaces/       # Service interfaces
 ├─ Infrastructure/      # Implementation of services, DB context
 │  ├─ Data/             # AppDbContext
+│  ├─ Repositories/     # Repository classes handling data access and persistence logic
 │  ├─ Services/         # CloudinaryService, PostService
 ├─ Program.cs           # Entry point with DI, middleware setup
 ├─ Startup.cs           # Entry point with DI, middleware setup
-├─ appsettings.json     # Configuration
+├─ appsettings.json     # Configuration (.gitignore)
 ```
 
 ---
@@ -80,20 +81,36 @@ PosterBoi/
     }
     ```
 
-4. Restore packages and run the application:
+4. Connecting to the remote repo(if needed):
+
+    ```bash
+    # 1. Initialize a new Git repository
+    git init
+
+    # 2. Add a remote repository (replace with your actual remote URL)
+    git remote add origin https://github.com/yourusername/your-repo.git
+
+    # 3. Verify the remote was added correctly (optional)
+    git remote -v
+
+    # 4. Create and switch to a new branch named "development"
+    git switch -c development
+    ```
+
+5. Restore packages and run the application:
 
     ```
     dotnet restore
     dotnet run
     ```
 
-5. Open Swagger UI at:
+6. Open Swagger UI at:
 
     ```
     https://localhost:{port}/swagger/index.html
     ```
 
-6. Database Operations
+7. Database Operations
     ## Normal
     ```bash
     dotnet ef database drop
