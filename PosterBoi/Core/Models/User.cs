@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PosterBoi.Core.Entities
+namespace PosterBoi.Core.Models
 {
     public class User
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PosterBoi.Core.Entities;
+using PosterBoi.Core.Models;
 
 namespace PosterBoi.Infrastructure.Data
 {

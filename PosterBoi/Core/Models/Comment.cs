@@ -1,4 +1,4 @@
-﻿namespace PosterBoi.Core.Entities
+﻿namespace PosterBoi.Core.Models
 {
     public class Comment
     {
