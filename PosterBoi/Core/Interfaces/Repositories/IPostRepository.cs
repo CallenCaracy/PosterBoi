@@ -1,5 +1,4 @@
-﻿using PosterBoi.Core.DTOs;
-using PosterBoi.Core.Entities;
+﻿using PosterBoi.Core.Models;
 
 namespace PosterBoi.Core.Interfaces.Repositories
 {

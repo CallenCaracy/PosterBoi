@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PosterBoi.Core.DTOs;
-using PosterBoi.Core.Entities;
+using PosterBoi.Core.Models;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Infrastructure.Data;
 
