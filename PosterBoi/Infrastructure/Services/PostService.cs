@@ -40,9 +40,9 @@ namespace PosterBoi.Infrastructure.Services
             return Result<Post>.Ok(post);
         }
 
-        public async Task<Result<Post>> UpdatePostAsync(int Id, PostDto request)
+        public async Task<Result<Post>> UpdatePostAsync(int id, PostDto request)
         {
-            var postUpdated = await _postRepository.GetByIdAsync(Id);
+            var postUpdated = await _postRepository.GetByIdAsync(id);
             if (postUpdated == null || request.UserId != postUpdated.UserId) 
                 return Result<Post>.Fail("Post to update does not exist.");
 
@@ -65,7 +65,7 @@ namespace PosterBoi.Infrastructure.Services
             if (post == null)
                 return Result<Post?>.Fail("Failed to fetch post.");
 
-            return Result<Post?>.Ok(post); 
+            return Result<Post?>.Ok(post);
         }
 
         public async Task<Result<IEnumerable<Post>>> GetAllPostsAsync(DateTime? after, int limit)
