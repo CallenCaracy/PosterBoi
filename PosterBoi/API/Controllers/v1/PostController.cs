@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PosterBoi.Core.DTOs;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Interfaces.Services;
@@ -18,6 +19,7 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpPost("createPost")]
+        [Authorize]
         public async Task<IActionResult> CreatePost([FromBody] PostDto request)
         {
             var result = await _postService.CreatePostAsync(request);
@@ -42,6 +44,7 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpGet("getPostsByUserID/{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetPostsByUserId(Guid userId)
         {
             var result = await _postService.GetPostsByUserIdAsync(userId);
@@ -50,6 +53,7 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpPut("updatePost/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdatePost(int id,[FromBody] PostDto request)
         {
             var result = await _postService.UpdatePostAsync(id, request);
@@ -58,6 +62,7 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpDelete("deletePost/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePost(int id)
         {
             var result = await _postService.DeletePostAsync(id);
