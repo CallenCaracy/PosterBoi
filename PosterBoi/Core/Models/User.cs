@@ -13,6 +13,7 @@ namespace PosterBoi.Core.Models
 
         public ICollection<Post> Posts { get; set; } = new List<Post>();
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Session> Sessions { get; set; } = new List<Session>();
         // Add Chat and Messages later
     }
 }

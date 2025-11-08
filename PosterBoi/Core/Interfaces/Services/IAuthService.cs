@@ -1,11 +1,13 @@
 ﻿using PosterBoi.Core.Configs;
 using PosterBoi.Core.DTOs;
+using PosterBoi.Core.Models;
 
 namespace PosterBoi.Core.Interfaces.Services
 {
     public interface IAuthService
     {
         Task<Result<Guid>> RegisterUserAsync(SignInDto request);
-        Task<Result<string>> LoginAsync(LoginDto request);
+        Task<Result<Jwt>> LoginAsync(LoginDto request);
+        Task<Result<bool>> LogoutAsync(string refreshToken);
     }
 }

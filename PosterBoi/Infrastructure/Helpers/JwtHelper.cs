@@ -1,7 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace PosterBoi.Infrastructure.Helpers
@@ -36,6 +38,14 @@ namespace PosterBoi.Infrastructure.Helpers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }
