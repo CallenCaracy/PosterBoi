@@ -10,12 +10,12 @@ namespace PosterBoi.Infrastructure.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        private readonly JwtHelper _jwtHelper;
+        private readonly ISessionService _sessionService;
 
-        public AuthService(IUserRepository userRepository, IConfiguration config)
+        public AuthService(IUserRepository userRepository, ISessionService sessionService)
         {
             _userRepository = userRepository;
-            _jwtHelper = new JwtHelper(config);
+            _sessionService = sessionService;
         }
 
         public async Task<Result<Guid>> RegisterUserAsync(SignInDto request)
@@ -37,14 +37,20 @@ namespace PosterBoi.Infrastructure.Services
             return Result<Guid>.Ok(user.Id);
         }
 
-        public async Task<Result<string>> LoginAsync(LoginDto request)
+        public async Task<Result<Jwt>> LoginAsync(LoginDto request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
-                return Result<string>.Fail("Invalid credentials.");
+                return Result<Jwt>.Fail("Invalid credentials.");
 
-            var token = _jwtHelper.GenerateJwtToken(user);
-            return Result<string>.Ok(token);
+            var token = await _sessionService.GenerateTokens(user);
+            return Result<Jwt>.Ok(token);
+        }
+
+        public async Task<Result<bool>> LogoutAsync(string refreshToken)
+        {
+            await _sessionService.RevokeRefreshTokenAsync(refreshToken);
+            return Result<bool>.Ok(true);
         }
     }
 }
