@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using PosterBoi.API.Extensions;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Interfaces.Services;
@@ -36,10 +38,13 @@ namespace PosterBoi
                 options.UseSqlServer(_configuration.GetConnectionString("PosterBoiDBConnection")));
 
             services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPostService, PostService>();
 
             services.AddCloudinaryConfiguration(_configuration);
+            services.AddCorsPolicies();
         }
 
         public void Configure(WebApplication app)
@@ -51,7 +56,7 @@ namespace PosterBoi
             }
 
             app.UseHttpsRedirection();
-            app.UseCors("AllowedFrontend");
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
         }
