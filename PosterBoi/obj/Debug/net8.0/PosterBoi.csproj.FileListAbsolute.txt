@@ -172,3 +172,5 @@ C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\refint\Po
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\PosterBoi.pdb
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\PosterBoi.genruntimeconfig.cache
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\ref\PosterBoi.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

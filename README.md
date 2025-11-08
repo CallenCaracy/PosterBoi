@@ -35,6 +35,7 @@ PosterBoi/
 │  ├─ Interfaces/       # Service interfaces
 ├─ Infrastructure/      # Implementation of services, DB context
 │  ├─ Data/             # AppDbContext
+│  ├─ Helpers/          # Helper classes
 │  ├─ Repositories/     # Repository classes handling data access and persistence logic
 │  ├─ Services/         # CloudinaryService, PostService
 ├─ Program.cs           # Entry point with DI, middleware setup
@@ -127,6 +128,12 @@ PosterBoi/
     dotnet clean
     dotnet build
     dotnet ef migrations add Init
+    dotnet ef database update
+    ```
+
+    ## Adding new migrations
+    ```bash
+    dotnet ef migrations add name
     dotnet ef database update
     ```
 ---
