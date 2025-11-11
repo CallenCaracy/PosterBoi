@@ -34,6 +34,12 @@ namespace PosterBoi.Infrastructure.Data
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Comment>()
+                .HasOne<Comment>(c => c.ParentComment)
+                .WithMany(c => c.ChildComments)
+                .HasForeignKey(c => c.ParentCommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Session>()
                 .HasOne(s => s.User)
                 .WithMany(u => u.Sessions)
