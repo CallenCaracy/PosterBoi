@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PosterBoi.Core.DTOs;
 using PosterBoi.Core.Interfaces.Services;
+using PosterBoi.Core.Models;
 
 namespace PosterBoi.API.Controllers.v1
 {
@@ -59,20 +60,55 @@ namespace PosterBoi.API.Controllers.v1
         public async Task<IActionResult> Logout([FromBody] LogoutDto request)
         {
             var result = await _authService.LogoutAsync(request.RefreshToken);
-            if (!result.Data)
+            if (!result.Success)
                 return BadRequest("Invalid token");
 
             return Ok(result.Data);
         }
 
         [HttpPost("refresh")]
-        [Authorize]
         public async Task<IActionResult> Refresh([FromBody] RefreshSessionDto request)
         {
             var result = await _sessionService.RefreshTokensAsync(request.RefreshToken);
-
             if (!result.Success)
                 return Unauthorized(result.Message);
+
+            var jwt = result.Data;
+            if (jwt == null)
+                return NotFound(result.Message);
+
+            Response.Cookies.Append("refreshToken", jwt.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddDays(30)
+            });
+
+            return Ok(new
+            {
+                accessToken = jwt.AccessToken,
+            });
+        }
+
+        [HttpPatch("updateUser/{UserId}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUser(Guid UserId, UpdateUserDto request)
+        {
+            var result = await _authService.UpdateUserAsync(UserId, request);
+            if (!result.Success)
+                return BadRequest("Failed to update user.");
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet("getUserById/{UserId}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserById(Guid UserId)
+        {
+            var result = await _authService.GetUserByIdAsync(UserId);
+            if (!result.Success)
+                return BadRequest("Failed to update user.");
 
             return Ok(result.Data);
         }

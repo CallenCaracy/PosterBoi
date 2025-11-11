@@ -8,8 +8,10 @@ C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\PosterBoi
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\PosterBoi.pdb
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\CloudinaryDotNet.dll
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Humanizer.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.Versioning.dll
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Build.Locator.dll
@@ -172,5 +174,3 @@ C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\refint\Po
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\PosterBoi.pdb
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\PosterBoi.genruntimeconfig.cache
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\ref\PosterBoi.dll
-C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\BCrypt.Net-Next.dll
-C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

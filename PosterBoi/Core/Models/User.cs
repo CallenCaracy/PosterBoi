@@ -8,8 +8,10 @@ namespace PosterBoi.Core.Models
         public string Name { get; set; } = string.Empty;
         public required string Email { get; set; }
         public required string Password { get; set; }
+        public string? PfpUrl { get; set; }
+        public bool? Gender { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? LastActiveAt { get; set; }
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<Post> Posts { get; set; } = new List<Post>();
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
