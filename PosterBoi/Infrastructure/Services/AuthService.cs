@@ -1,8 +1,9 @@
-﻿using PosterBoi.Core.Interfaces.Services;
-using PosterBoi.Core.Interfaces.Repositories;
-using PosterBoi.Core.DTOs;
-using PosterBoi.Core.Models;
+﻿using Azure.Core;
 using PosterBoi.Core.Configs;
+using PosterBoi.Core.DTOs;
+using PosterBoi.Core.Interfaces.Repositories;
+using PosterBoi.Core.Interfaces.Services;
+using PosterBoi.Core.Models;
 using PosterBoi.Infrastructure.Helpers;
 
 namespace PosterBoi.Infrastructure.Services
@@ -30,7 +31,10 @@ namespace PosterBoi.Infrastructure.Services
                 Name = request.Username,
                 Email = request.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                PfpUrl = request.PfpUrl,
+                Gender = request.Gender,
                 CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
             };
 
             await _userRepository.CreateUserAsync(user);
@@ -51,6 +55,35 @@ namespace PosterBoi.Infrastructure.Services
         {
             await _sessionService.RevokeRefreshTokenAsync(refreshToken);
             return Result<bool>.Ok(true);
+        }
+
+        public async Task<Result<bool>> UpdateUserAsync(Guid userId, UpdateUserDto request)
+        {
+            var existing = await _userRepository.GetByIdAsync(userId);
+            if (existing == null)
+                return Result<bool>.Fail("User to be updated doesn't exist.");
+
+            if(!string.IsNullOrWhiteSpace(request.Username))
+                existing.Name = request.Username;
+
+            if (!string.IsNullOrWhiteSpace(request.PfpUrl))
+                existing.PfpUrl = request.PfpUrl;
+
+            if (request.Gender != existing.Gender)
+                existing.Gender = request.Gender;
+
+            existing.UpdatedAt = DateTime.UtcNow;
+
+            await _userRepository.UpdateUserAsync(existing);
+            return Result<bool>.Ok(true);
+        }
+
+        public async Task<Result<User>> GetUserByIdAsync(Guid userId)
+        {
+            var existing = await _userRepository.GetByIdAsync(userId);
+            if (existing == null)
+                return Result<User>.Fail("Failed to fetch user.");
+            return Result<User>.Ok(existing);
         }
     }
 }

@@ -12,7 +12,7 @@ using PosterBoi.Infrastructure.Data;
 namespace PosterBoi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251106224558_Init")]
+    [Migration("20251111154113_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace PosterBoi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.Comment", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,6 +40,9 @@ namespace PosterBoi.Migrations
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ParentCommentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
@@ -48,6 +51,8 @@ namespace PosterBoi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentCommentId");
+
                     b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
@@ -55,7 +60,7 @@ namespace PosterBoi.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.Post", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +94,38 @@ namespace PosterBoi.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.User", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.Session", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sessions");
+                });
+
+            modelBuilder.Entity("PosterBoi.Core.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,6 +138,9 @@ namespace PosterBoi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("LastActiveAt")
                         .HasColumnType("datetime2");
 
@@ -113,33 +152,43 @@ namespace PosterBoi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PfpUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.Comment", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.Comment", b =>
                 {
-                    b.HasOne("PosterBoi.Core.Entities.Post", "Post")
+                    b.HasOne("PosterBoi.Core.Models.Comment", "ParentComment")
+                        .WithMany("ChildComments")
+                        .HasForeignKey("ParentCommentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("PosterBoi.Core.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PosterBoi.Core.Entities.User", "User")
+                    b.HasOne("PosterBoi.Core.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("ParentComment");
 
                     b.Navigation("Post");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.Post", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.Post", b =>
                 {
-                    b.HasOne("PosterBoi.Core.Entities.User", "User")
+                    b.HasOne("PosterBoi.Core.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -148,16 +197,34 @@ namespace PosterBoi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.Post", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.Session", b =>
+                {
+                    b.HasOne("PosterBoi.Core.Models.User", "User")
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PosterBoi.Core.Models.Comment", b =>
+                {
+                    b.Navigation("ChildComments");
+                });
+
+            modelBuilder.Entity("PosterBoi.Core.Models.Post", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("PosterBoi.Core.Entities.User", b =>
+            modelBuilder.Entity("PosterBoi.Core.Models.User", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }
