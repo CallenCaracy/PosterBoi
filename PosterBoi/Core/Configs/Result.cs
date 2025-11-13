@@ -13,8 +13,8 @@
             Message = message;
         }
 
-        public static Result<T> Ok(T data) => new Result<T>(true, data, null);
-        public static Result<T> Fail(string message) => new Result<T>(false, default, message);
+        public static Result<T> Ok(T data) => new(true, data, null);
+        public static Result<T> Fail(string message) => new(false, default, message);
     }
 
 }

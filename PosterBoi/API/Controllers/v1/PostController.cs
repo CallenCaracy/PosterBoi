@@ -9,14 +9,9 @@ namespace PosterBoi.API.Controllers.v1
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostController : ControllerBase
+    public class PostController(IPostService postService) : ControllerBase
     {
-        private readonly IPostService _postService;
-
-        public PostController(IPostService postService)
-        {
-            _postService = postService;
-        }
+        private readonly IPostService _postService = postService;
 
         [HttpPost("createPost")]
         [Authorize]

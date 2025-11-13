@@ -6,21 +6,15 @@ using PosterBoi.Infrastructure.Helpers;
 
 namespace PosterBoi.Infrastructure.Services
 {
-    public class SessionService : ISessionService
+    public class SessionService(ISessionRepository sessionRepository, JwtHelper jwtHelper) : ISessionService
     {
-        private readonly ISessionRepository _sessionRepository;
-        private readonly JwtHelper _jwtHelper;
-
-        public SessionService(ISessionRepository sessionRepository, JwtHelper jwtHelper)
-        {
-            _sessionRepository = sessionRepository;
-            _jwtHelper = jwtHelper;
-        }
+        private readonly ISessionRepository _sessionRepository = sessionRepository;
+        private readonly JwtHelper _jwtHelper = jwtHelper;
 
         public async Task<Jwt> GenerateTokens(User user)
         {
             var accessToken = _jwtHelper.GenerateJwtToken(user);
-            var refreshToken = _jwtHelper.GenerateRefreshToken();
+            var refreshToken = JwtHelper.GenerateRefreshToken();
 
             var session = new Session
             {

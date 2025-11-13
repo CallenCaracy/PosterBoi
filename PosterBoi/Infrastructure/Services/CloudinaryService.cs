@@ -16,7 +16,7 @@ namespace PosterBoi.Infrastructure.Services
             _cloudinary = new Cloudinary(acc);
         }
 
-        public async Task<string> UploadAsync(Stream fileStream, string fileName)
+        public async Task<Result<string>> UploadAsync(Stream fileStream, string fileName)
         {
             var uploadParams = new ImageUploadParams
             {
@@ -29,9 +29,9 @@ namespace PosterBoi.Infrastructure.Services
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
             if (uploadResult.StatusCode == System.Net.HttpStatusCode.OK)
-                return uploadResult.SecureUrl.ToString();
+                return Result<string>.Ok(uploadResult.SecureUrl.ToString());
 
-            throw new Exception("Cloudinary upload failed");
+            return Result<string>.Fail(uploadResult.Error?.Message ?? "Upload failed.");
         }
     }
 }

@@ -12,6 +12,7 @@
 - **Dependency Injection (DI)** for services  
 - **SQL Server database** integration with Entity Framework Core  
 - **Swagger UI** for API exploration  
+- **SonarLint & Roslyn** for Linting and code quality
 
 _Planned features:_  
 
@@ -24,23 +25,31 @@ _Planned features:_
 ## Project Structure
 
 ```bash
-PosterBoi/
-├─ API/                 # Controllers, API entry point
-│  ├─ Controllers/      # Versioned controllers (v1, v2)
-│  ├─ Extensions/       # DI, Logging, CORS, Cloudinary config
-├─ Core/                # Domain entities and interfaces
-│  ├─ Configs/          # Cloudinary and other 3rd party services configurations
-│  ├─ DTOs/             # Data Transfer Objects
-│  ├─ Models/           # User, Post, Comment
-│  ├─ Interfaces/       # Service interfaces
-├─ Infrastructure/      # Implementation of services, DB context
-│  ├─ Data/             # AppDbContext
-│  ├─ Helpers/          # Helper classes
-│  ├─ Repositories/     # Repository classes handling data access and persistence logic
-│  ├─ Services/         # CloudinaryService, PostService
-├─ Program.cs           # Entry point with DI, middleware setup
-├─ Startup.cs           # Entry point with DI, middleware setup
-├─ appsettings.json     # Configuration (.gitignore)
+└───PosterBoi
+    ├───.github/
+    │   └───workflows/           # GitHub Actions workflows for CI/CD and automated testing
+    ├───.gitignore               # Ignore build outputs, secrets, and unnecessary files
+    ├───README.md                # Project documentation and setup guide
+    └───PosterBoi/               # Main backend project
+        ├───API/                 # Presentation layer (controllers, entry point)
+        │   ├───Controllers/     # API controllers, organized by version (v1, v2)
+        │   └───Extensions/      # Extension methods for DI, logging, CORS, and Cloudinary setup
+        ├───Core/                # Domain layer (entities, DTOs, contracts)
+        │   ├───Configs/         # Strongly-typed config classes for 3rd-party services
+        │   ├───DTOs/            # Data Transfer Objects (requests/responses)
+        │   ├───Interfaces/      # Contracts for repositories and services
+        │   │   ├───Repositories/
+        │   │   └───Services/
+        │   └───Models/          # Domain entities (User, Post, Comment)
+        ├───Infrastructure/      # Data access and service implementations
+        │   ├───Data/            # EF Core DbContext and configurations
+        │   ├───Helpers/         # Helper utilities (e.g., pagination, tokens)
+        │   ├───Repositories/    # Repository implementations
+        │   └───Services/        # Business and external integration services
+        ├───Migrations/          # EF Core migration history
+        ├───Program.cs           # Application host and builder configuration
+        ├───Startup.cs           # Service registration and middleware pipeline
+        └───appsettings.json     # Application configuration (ignored in Git)
 ```
 
 ---

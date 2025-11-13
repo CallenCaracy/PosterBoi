@@ -8,14 +8,9 @@ using PosterBoi.Core.Models;
 
 namespace PosterBoi.Infrastructure.Services
 {
-    public class PostService : IPostService
+    public class PostService(IPostRepository postRepository) : IPostService
     {
-        private readonly IPostRepository _postRepository;
-
-        public PostService(IPostRepository postRepository)
-        {
-            _postRepository = postRepository;
-        }
+        private readonly IPostRepository _postRepository = postRepository;
 
         public async Task<Result<Post>> CreatePostAsync(PostDto request)
         {

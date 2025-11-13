@@ -1,7 +1,9 @@
-﻿namespace PosterBoi.Core.Interfaces.Services
+﻿using PosterBoi.Core.Configs;
+
+namespace PosterBoi.Core.Interfaces.Services
 {
     public interface ICloudinaryService
     {
-        Task<string> UploadAsync(Stream fileStream, string fileName);
+        Task<Result<string>> UploadAsync(Stream fileStream, string fileName);
     }
 }

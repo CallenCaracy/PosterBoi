@@ -13,9 +13,9 @@ namespace PosterBoi.Core.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public ICollection<Post> Posts { get; set; } = new List<Post>();
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public ICollection<Session> Sessions { get; set; } = new List<Session>();
+        public ICollection<Post> Posts { get; set; } = [];
+        public ICollection<Comment> Comments { get; set; } = [];
+        public ICollection<Session> Sessions { get; set; } = [];
         // Add Chat and Messages later
     }
 }
