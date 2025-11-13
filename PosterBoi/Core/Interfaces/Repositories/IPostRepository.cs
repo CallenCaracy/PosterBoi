@@ -9,6 +9,6 @@ namespace PosterBoi.Core.Interfaces.Repositories
         Task<Post?> GetByIdAsync(int id);
         Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId);
         Task<bool> UpdatePostAsync(Post post);
-        Task<bool> DeletePostAsync(int Id);
+        Task<bool> DeletePostAsync(int id);
     }
 }

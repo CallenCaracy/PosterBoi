@@ -9,16 +9,9 @@ namespace PosterBoi.API.Controllers.v1
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService authService) : ControllerBase
     {
-        private readonly ISessionService _sessionService;
-        private readonly IAuthService _authService;
-
-        public AuthController(ISessionService sessionService, IAuthService authService)
-        {
-            _sessionService = sessionService;
-            _authService = authService;
-        }
+        private readonly IAuthService _authService = authService;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(SignInDto request)
@@ -64,31 +57,6 @@ namespace PosterBoi.API.Controllers.v1
                 return BadRequest("Invalid token");
 
             return Ok(result.Data);
-        }
-
-        [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] RefreshSessionDto request)
-        {
-            var result = await _sessionService.RefreshTokensAsync(request.RefreshToken);
-            if (!result.Success)
-                return Unauthorized(result.Message);
-
-            var jwt = result.Data;
-            if (jwt == null)
-                return NotFound(result.Message);
-
-            Response.Cookies.Append("refreshToken", jwt.RefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddDays(30)
-            });
-
-            return Ok(new
-            {
-                accessToken = jwt.AccessToken,
-            });
         }
 
         [HttpPatch("updateUser/{UserId}")]

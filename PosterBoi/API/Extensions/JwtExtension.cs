@@ -8,9 +8,6 @@ namespace PosterBoi.API.Extensions
     {
         public static IServiceCollection AddAuthenticationJwt(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            var jwtKey = builder.Configuration["Jwt:Key"];
-            var jwtIssuer = builder.Configuration["Jwt:Issuer"];
-
             services.AddAuthentication("Bearer")
                 .AddJwtBearer(options =>
                 {

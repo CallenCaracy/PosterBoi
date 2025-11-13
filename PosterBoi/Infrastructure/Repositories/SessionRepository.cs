@@ -6,14 +6,9 @@ using PosterBoi.Infrastructure.Data;
 
 namespace PosterBoi.Infrastructure.Repositories
 {
-    public class SessionRepository : ISessionRepository
+    public class SessionRepository(AppDbContext context) : ISessionRepository
     {
-        private readonly AppDbContext _context;
-
-        public SessionRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        private readonly AppDbContext _context = context;
 
         public async Task<Session?> GetByTokenAsync(string token)
         {

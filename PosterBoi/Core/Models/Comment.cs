@@ -16,6 +16,6 @@
         
         public int? ParentCommentId { get; set; }
         public Comment? ParentComment { get; set; }
-        public ICollection<Comment> ChildComments { get; set; } = new List<Comment>();
+        public ICollection<Comment> ChildComments { get; set; } = [];
     }
 }
