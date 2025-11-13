@@ -5,14 +5,9 @@ using PosterBoi.Infrastructure.Data;
 
 namespace PosterBoi.Infrastructure.Repositories
 {
-    public class PostRepository : IPostRepository
+    public class PostRepository(AppDbContext context) : IPostRepository
     {
-        private readonly AppDbContext _context;
-
-        public PostRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        private readonly AppDbContext _context = context;
 
         public async Task<bool> CreatePostAsync(Post post)
         {
@@ -29,9 +24,9 @@ namespace PosterBoi.Infrastructure.Repositories
             return await query.Take(limit).ToListAsync();
         }
 
-        public async Task<Post?> GetByIdAsync(int Id)
+        public async Task<Post?> GetByIdAsync(int id)
         {
-            return await _context.Posts.FindAsync(Id);
+            return await _context.Posts.FindAsync(id);
         }
 
         public async Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId)
@@ -48,9 +43,9 @@ namespace PosterBoi.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<bool> DeletePostAsync(int Id)
+        public async Task<bool> DeletePostAsync(int id)
         {
-            var post = await _context.Posts.FindAsync(Id);
+            var post = await _context.Posts.FindAsync(id);
             if (post == null) return false;
 
             _context.Posts.Remove(post);

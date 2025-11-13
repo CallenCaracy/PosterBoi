@@ -8,14 +8,9 @@ using System.Text;
 
 namespace PosterBoi.Infrastructure.Helpers
 {
-    public class JwtHelper
+    public class JwtHelper(IConfiguration config)
     {
-        private readonly IConfiguration _config;
-
-        public JwtHelper(IConfiguration config)
-        {
-            _config = config;
-        }
+        private readonly IConfiguration _config = config;
 
         public string GenerateJwtToken(User user)
         {
@@ -40,7 +35,7 @@ namespace PosterBoi.Infrastructure.Helpers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string GenerateRefreshToken()
+        public static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
             using var rng = RandomNumberGenerator.Create();

@@ -9,14 +9,9 @@ namespace PosterBoi.API.Controllers.v1
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize]
-    public class CloudinaryController : ControllerBase
+    public class CloudinaryController(ICloudinaryService cloudinaryService) : ControllerBase
     {
-        private readonly ICloudinaryService _cloudinaryService;
-
-        public CloudinaryController(ICloudinaryService cloudinaryService)
-        {
-            _cloudinaryService = cloudinaryService;
-        }
+        private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
 
         [HttpPost("upload")]
         public async Task<IActionResult> UploadPhoto([FromForm] FileUploadDto request)
