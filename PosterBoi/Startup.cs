@@ -13,14 +13,9 @@ using PosterBoi.Infrastructure.Services;
 
 namespace PosterBoi
 {
-    internal partial class Startup
+    internal partial class Startup(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-
-        public Startup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -83,7 +78,7 @@ namespace PosterBoi
             services.AddCorsPolicies();
         }
 
-        public void Configure(WebApplication app)
+        public static void Configure(WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {

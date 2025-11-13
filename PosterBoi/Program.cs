@@ -1,3 +1,4 @@
+using PosterBoi;
 using PosterBoi.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,6 @@ builder.AddLoggingConfiguration();
 
 var app = builder.Build();
 
-startup.Configure(app);
+Startup.Configure(app);
 
-app.Run();
+await app.RunAsync();

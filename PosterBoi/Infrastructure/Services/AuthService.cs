@@ -8,16 +8,10 @@ using PosterBoi.Infrastructure.Helpers;
 
 namespace PosterBoi.Infrastructure.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService(IUserRepository userRepository, ISessionService sessionService) : IAuthService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly ISessionService _sessionService;
-
-        public AuthService(IUserRepository userRepository, ISessionService sessionService)
-        {
-            _userRepository = userRepository;
-            _sessionService = sessionService;
-        }
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly ISessionService _sessionService = sessionService;
 
         public async Task<Result<Guid>> RegisterUserAsync(SignInDto request)
         {

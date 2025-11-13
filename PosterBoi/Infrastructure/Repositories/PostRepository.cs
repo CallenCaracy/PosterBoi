@@ -1,61 +1,109 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PosterBoi.Core.Models;
+using Microsoft.Extensions.Hosting;
 using PosterBoi.Core.Interfaces.Repositories;
+using PosterBoi.Core.Models;
 using PosterBoi.Infrastructure.Data;
 
 namespace PosterBoi.Infrastructure.Repositories
 {
-    public class PostRepository : IPostRepository
+    public class PostRepository(AppDbContext context, ILogger<PostRepository> logger) : IPostRepository
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context = context;
+        private readonly ILogger<PostRepository> _logger = logger;
 
-        public PostRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        // Some getters might be able to use AsNoTracking for better performance so check on this later or soon nigga
 
         public async Task<bool> CreatePostAsync(Post post)
         {
-            _context.Posts.Add(post);
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                _context.Posts.Add(post);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add post for user {UserId}. Title: {Title}", post.UserId, post.Title);
+                return false;
+            }
         }
 
         public async Task<IEnumerable<Post>> GetAllPostsAsync(DateTime? after, int limit)
         {
-            var query = _context.Posts.OrderByDescending(post => post.CreatedAt).AsQueryable();
-            if (after.HasValue)
-                query = query.Where(p => p.CreatedAt < after.Value);
-            return await query.Take(limit).ToListAsync();
+            try
+            {
+                var query = _context.Posts.OrderByDescending(post => post.CreatedAt).AsQueryable();
+                if (after.HasValue)
+                    query = query.Where(p => p.CreatedAt < after.Value);
+
+                return await query.Take(limit).ToListAsync();
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, "Failed to fetch posts");
+                return [];
+            }
         }
 
-        public async Task<Post?> GetByIdAsync(int Id)
+        public async Task<Post?> GetByIdAsync(int id)
         {
-            return await _context.Posts.FindAsync(Id);
+            try
+            {
+                return await _context.Posts.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to fetch post by id: {Id}", id);
+                return null;
+            }
         }
 
         public async Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId)
         {
-            return await _context.Posts
-                .Where(p => p.UserId == userId)
-                .ToListAsync();
+            try
+            {
+                return await _context.Posts
+                    .Where(p => p.UserId == userId)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to post by userId: {UserId}", userId);
+                return [];
+            }
         }
 
         public async Task<bool> UpdatePostAsync(Post post)
         {
-            _context.Posts.Update(post);
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, "Failed to update post by id: {Id}", post.Id);
+                return false;
+            }
         }
 
-        public async Task<bool> DeletePostAsync(int Id)
+        public async Task<bool> DeletePostAsync(int id)
         {
-            var post = await _context.Posts.FindAsync(Id);
-            if (post == null) return false;
+            try
+            {
+                var post = await _context.Posts.FindAsync(id);
+                if (post == null) return false;
 
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
-            return true;
+                _context.Posts.Remove(post);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, "Failed to delete post by id: {Id}", id);
+                return false;
+            }
         }
     }
 }
