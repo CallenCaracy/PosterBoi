@@ -1,4 +1,6 @@
-﻿namespace PosterBoi.Core.Models
+﻿using System.Text.Json.Serialization;
+
+namespace PosterBoi.Core.Models
 {
     public class Comment
     {
@@ -15,6 +17,8 @@
         public Post Post { get; set; } = null!;
         
         public int? ParentCommentId { get; set; }
+
+        [JsonIgnore]
         public Comment? ParentComment { get; set; }
         public ICollection<Comment> ChildComments { get; set; } = [];
     }
