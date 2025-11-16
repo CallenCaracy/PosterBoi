@@ -23,7 +23,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to add post for user {UserId}. Title: {Title}", post.UserId, post.Title);
+                _logger.LogError(ex, "Failed to add post for user {UserId}. Title: {Title}.", post.UserId, post.Title);
                 return false;
             }
         }
@@ -40,7 +40,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex) 
             {
-                _logger.LogError(ex, "Failed to fetch posts");
+                _logger.LogError(ex, "Failed to fetch posts.");
                 return [];
             }
         }
@@ -53,7 +53,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to fetch post by id: {Id}", id);
+                _logger.LogError(ex, "Failed to fetch post by id: {Id}.", id);
                 return null;
             }
         }
@@ -68,7 +68,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to post by userId: {UserId}", userId);
+                _logger.LogError(ex, "Failed to post by userId: {UserId}.", userId);
                 return [];
             }
         }
@@ -83,7 +83,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex) 
             {
-                _logger.LogError(ex, "Failed to update post by id: {Id}", post.Id);
+                _logger.LogError(ex, "Failed to update post by id: {Id}.", post.Id);
                 return false;
             }
         }
@@ -101,7 +101,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex) 
             {
-                _logger.LogError(ex, "Failed to delete post by id: {Id}", id);
+                _logger.LogError(ex, "Failed to delete post by id: {Id}.", id);
                 return false;
             }
         }

@@ -4,6 +4,12 @@
 
 ---
 
+## Architecture Diagram
+
+![Architecture Diagram](https://github.com/CallenCaracy/PosterBoi/blob/main/.github/diagrams/PosterBoi.png)
+
+---
+
 ## Features
 
 - **User posts and comments**  
