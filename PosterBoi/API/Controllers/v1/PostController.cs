@@ -39,7 +39,6 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpGet("getPostsByUserID/{userId}")]
-        [Authorize]
         public async Task<IActionResult> GetPostsByUserId(Guid userId)
         {
             var result = await _postService.GetPostsByUserIdAsync(userId);

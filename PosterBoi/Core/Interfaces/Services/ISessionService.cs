@@ -5,7 +5,7 @@ namespace PosterBoi.Core.Interfaces.Services
 {
     public interface ISessionService
     {
-        Task<Jwt> GenerateTokens(User user);
+        Task<Jwt?> GenerateTokens(User user);
         Task<Result<Jwt>> RefreshTokensAsync(string refreshToken);
         Task<bool> RevokeRefreshTokenAsync(string refreshToken);
     }
