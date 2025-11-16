@@ -62,16 +62,24 @@ namespace PosterBoi
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("PosterBoiDBConnection")));
 
+            // Cloudinary
             services.AddScoped<ICloudinaryService, CloudinaryService>();
 
-            services.AddScoped<ISessionRepository, SessionRepository>();
+            // Auth
             services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddScoped<IPostRepository, PostRepository>();
+            // Post
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IPostRepository, PostRepository>();
 
+            // Comments
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+
+            // Helpers
             services.AddScoped<JwtHelper>();
 
             services.AddCloudinaryConfiguration(_configuration);
