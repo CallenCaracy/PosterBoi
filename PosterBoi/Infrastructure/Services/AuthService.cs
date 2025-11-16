@@ -41,8 +41,11 @@ namespace PosterBoi.Infrastructure.Services
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
                 return Result<Jwt>.Fail("Invalid credentials.");
 
-            var token = await _sessionService.GenerateTokens(user);
-            return Result<Jwt>.Ok(token);
+            var tokens = await _sessionService.GenerateTokens(user);
+            if (tokens == null)
+                return Result<Jwt>.Fail("Failed to generate tokens.");
+
+            return Result<Jwt>.Ok(tokens);
         }
 
         public async Task<Result<bool>> LogoutAsync(string refreshToken)

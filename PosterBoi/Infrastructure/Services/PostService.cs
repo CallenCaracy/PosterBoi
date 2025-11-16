@@ -28,9 +28,8 @@ namespace PosterBoi.Infrastructure.Services
             };
 
             var isCreated = await _postRepository.CreatePostAsync(post);
-
             if (!isCreated)
-                return Result<Post>.Fail("Failed to save post.");
+                return Result<Post>.Fail("Failed to create post.");
 
             return Result<Post>.Ok(post);
         }
@@ -47,7 +46,6 @@ namespace PosterBoi.Infrastructure.Services
             postUpdated.ImgUrl = request.ImgUrl;
 
             var isUpdated = await _postRepository.UpdatePostAsync(postUpdated);
-
             if(!isUpdated)
                 return Result<Post>.Fail("Failed to save post updates.");
 
