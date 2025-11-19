@@ -13,7 +13,7 @@ namespace PosterBoi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20251119184154_reations")]
-    partial class reations
+    partial class Reactions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
