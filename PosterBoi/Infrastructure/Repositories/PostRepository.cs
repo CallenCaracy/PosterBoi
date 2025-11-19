@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using PosterBoi.Core.DTOs;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Models;
 using PosterBoi.Infrastructure.Data;
@@ -28,7 +29,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Post>> GetAllPostsAsync(DateTime? after, int limit)
+        public async Task<IEnumerable<PostWithReactionCountDto>> GetAllPostsAsync(DateTime? after, int limit)
         {
             try
             {
@@ -36,7 +37,28 @@ namespace PosterBoi.Infrastructure.Repositories
                 if (after.HasValue)
                     query = query.Where(p => p.CreatedAt < after.Value);
 
-                return await query.Take(limit).ToListAsync();
+                var result = await query
+                    .Select(p => new PostWithReactionCountDto
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Description = p.Description,
+                        ImgUrl = p.ImgUrl,
+                        UserId = p.UserId,
+                        CreatedAt = p.CreatedAt,
+                        UpdatedAt = p.UpdatedAt,
+                        ReactionCount = p.Reactions.Count,
+                        CommentCount = p.Comments.Count,
+                        User = new UserSummaryDto
+                        {
+                            Name = p.User.Name,
+                            PfpUrl = p.User.PfpUrl,
+                        }
+                    })
+                    .Take(limit)
+                    .ToListAsync();
+
+                return result;
             }
             catch (Exception ex) 
             {

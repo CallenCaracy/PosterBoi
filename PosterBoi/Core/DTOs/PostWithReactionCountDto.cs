@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PosterBoi.Core.Models;
 
-namespace PosterBoi.Core.Models
+namespace PosterBoi.Core.DTOs
 {
-    public class Post
+    public class PostWithReactionCountDto
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -12,9 +12,9 @@ namespace PosterBoi.Core.Models
         public DateTime UpdatedAt { get; set; }
 
         public Guid UserId { get; set; }
-        public User User { get; set; } = null!;
+        public UserSummaryDto User { get; set; } = null!;
 
-        public ICollection<Reaction> Reactions { get; set; } = [];
-        public ICollection<Comment> Comments { get; set; } = [];
+        public int ReactionCount { get; set; }
+        public int CommentCount { get; set; }
     }
 }
