@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PosterBoi.Migrations
 {
     /// <inheritdoc />
-    public partial class reations : Migration
+    public partial class Reactions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
