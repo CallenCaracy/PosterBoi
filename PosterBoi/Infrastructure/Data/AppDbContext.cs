@@ -9,6 +9,7 @@ namespace PosterBoi.Infrastructure.Data
         public DbSet<Post> Posts { get; set; } = null!;
         public DbSet<Comment> Comments { get; set; } = null!;
         public DbSet<Session> Sessions { get; set; } = null!;
+        public DbSet<Reaction> Reactions { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +43,12 @@ namespace PosterBoi.Infrastructure.Data
                 .HasOne(s => s.User)
                 .WithMany(u => u.Sessions)
                 .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Reaction>()
+                .HasOne<Post>()
+                .WithMany(p => p.Reactions)
+                .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

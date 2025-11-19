@@ -22,9 +22,9 @@
 
 _Planned features:_  
 
-- WebSocket chat                -> Not Started
-- User authentication           -> WIP
-- Likes and reactions system    -> Not Started
+- WebSocket chat                -> Next (WIP)
+- User authentication           -> Done -> Redo Add email confirmation and forgot password -> WIP
+- Likes and reactions system    -> Done
 
 ---
 

@@ -12,5 +12,7 @@ namespace PosterBoi.Core.Interfaces.Services
         Task<Result<bool>> UpdateUserAsync(Guid userId, UpdateUserDto request);
         //Task<Result<IEnumerable<User>>> GetFriendsAsync(); Later when we do this
         Task<Result<User>> GetUserByIdAsync(Guid userId);
+        Task<Result<bool>> ConfirmUserAsync(string token);
+        //Task<Result<bool>> ForgotPasswordAsync(string newPassword); We do this later
     }
 }

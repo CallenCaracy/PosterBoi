@@ -23,6 +23,19 @@ namespace PosterBoi.Infrastructure.Repositories
             }
         }
 
+        public async Task<User?> GetByTokenAsync(string token)
+        {
+            try
+            {
+                return await _context.Users.FirstOrDefaultAsync(u => u.Token == token);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to fetch by token: {Token}", token);
+                return null;
+            }
+        }
+
         public async Task<User?> GetByIdAsync(Guid id)
         {
             try
@@ -64,7 +77,21 @@ namespace PosterBoi.Infrastructure.Repositories
                 _logger.LogError(ex, "Failed to update user: {Id}", user.Id);
                 return false;
             }
-            
+        }
+
+        public async Task<bool> UpdateIsConfirmAsync(User user)
+        {
+            try
+            {
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update column isConfirmed with Id: {UserId}.", user.Id);
+                return false;
+            }
         }
     }
 }

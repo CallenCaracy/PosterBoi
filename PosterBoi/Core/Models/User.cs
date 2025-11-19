@@ -10,6 +10,9 @@ namespace PosterBoi.Core.Models
         public required string Password { get; set; }
         public string? PfpUrl { get; set; }
         public bool? Gender { get; set; }
+        public DateTime? Birthday { get; set; }
+        public bool IsConfirmed { get; set; }
+        public string? Token { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 

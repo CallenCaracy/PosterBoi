@@ -80,5 +80,16 @@ namespace PosterBoi.API.Controllers.v1
 
             return Ok(result.Data);
         }
+
+        [HttpGet("confirm")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
+        {
+            var result = await _authService.ConfirmUserAsync(token);
+
+            if (!result.Success)
+                return BadRequest("Error confirming email.");
+
+            return Ok("Account confirmed.");
+        }
     }
 }

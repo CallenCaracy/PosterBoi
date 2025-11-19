@@ -31,7 +31,7 @@ namespace PosterBoi
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
-                c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                c.AddSecurityDefinition(Constanst.BearerScheme, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
                     Name = "Authorization",
@@ -74,6 +74,10 @@ namespace PosterBoi
             // Post
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostRepository, PostRepository>();
+
+            // Reactions
+            services.AddScoped<IReactionService, ReactionService>();
+            services.AddScoped<IReactionRepository, ReactionRepository>();
 
             // Comments
             services.AddScoped<ICommentService, CommentService>();
