@@ -5,9 +5,11 @@ namespace PosterBoi.Core.Interfaces.Repositories
     public interface IUserRepository
     {
         Task<User?> GetByEmailAsync(string email);
+        Task<User?> GetByTokenAsync(string token);
         Task<User?> GetByIdAsync(Guid id);
         Task<bool> CreateUserAsync(User user);
         Task<bool> UpdateUserAsync(User user);
         //Task<Result<IEnumerable<User>>> GetFriendsAsync(); Later when we do this
+        Task<bool> UpdateIsConfirmAsync(User user);
     }
 }

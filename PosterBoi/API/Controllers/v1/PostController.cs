@@ -26,7 +26,7 @@ namespace PosterBoi.API.Controllers.v1
         public async Task<IActionResult> GetAllPosts(DateTime? after, int limit)
         {
             var result = await _postService.GetAllPostsAsync(after, limit);
-            if (!result.Success) return BadRequest(result.Message);
+            if (!result.Success) return NotFound(result.Message);
             return Ok(result.Data);
         }
 
@@ -34,7 +34,7 @@ namespace PosterBoi.API.Controllers.v1
         public async Task<IActionResult> GetPostById(int id)
         {
             var result = await _postService.GetPostByIdAsync(id);
-            if (!result.Success) return BadRequest(result.Message);
+            if (!result.Success) return NotFound(result.Message);
             return Ok(result.Data);
         }
 
@@ -42,7 +42,7 @@ namespace PosterBoi.API.Controllers.v1
         public async Task<IActionResult> GetPostsByUserId(Guid userId)
         {
             var result = await _postService.GetPostsByUserIdAsync(userId);
-            if (!result.Success) return BadRequest(result.Message);
+            if (!result.Success) return NotFound(result.Message);
             return Ok(result.Data);
         }
 
