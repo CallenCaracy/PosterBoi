@@ -1,4 +1,5 @@
-﻿using PosterBoi.Core.Configs;
+﻿using Newtonsoft.Json.Linq;
+using PosterBoi.Core.Configs;
 using PosterBoi.Core.DTOs;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Interfaces.Services;
@@ -7,10 +8,11 @@ using PosterBoi.Infrastructure.Helpers;
 
 namespace PosterBoi.Infrastructure.Services
 {
-    public class AuthService(IUserRepository userRepository, ISessionService sessionService) : IAuthService
+    public class AuthService(IUserRepository userRepository, ISessionService sessionService, IEmailService emailService) : IAuthService
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly ISessionService _sessionService = sessionService;
+        private readonly IEmailService _emailService = emailService;
 
         public async Task<Result<Guid>> RegisterUserAsync(SignInDto request)
         {
@@ -33,6 +35,15 @@ namespace PosterBoi.Infrastructure.Services
             var isCreated = await _userRepository.CreateUserAsync(user);
             if (!isCreated)
                 return Result<Guid>.Fail("Failed to create user.");
+
+            var confirmationLink = $"https://yourdomain.com/auth/confirm?token={user.Token}";
+
+            var emailMessage =
+                $"<p>Click here to confirm your account:</p> <a href='{confirmationLink}'>Confirm Email</a>";
+
+            var emailSent = await _emailService.SendEmailAsync(user.Email, Constanst.ConfirmEmailSubject, emailMessage);
+            if (!emailSent)
+                return Result<Guid>.Fail("Failed to sent confirmation email, please contact the administrator or head development.");
 
             return Result<Guid>.Ok(user.Id);
         }
