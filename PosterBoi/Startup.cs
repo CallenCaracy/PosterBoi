@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using PosterBoi.API.Extensions;
+using PosterBoi.Core.Configs;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Interfaces.Services;
 using PosterBoi.Infrastructure.Data;
@@ -59,8 +57,14 @@ namespace PosterBoi
                 });
             });
 
+            // Database
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("PosterBoiDBConnection")));
+
+            // Email
+            services.Configure<EmailSettings>(
+                _configuration.GetSection("EmailSettings"));
+            services.AddTransient<IEmailService, EmailService>();
 
             // Cloudinary
             services.AddScoped<ICloudinaryService, CloudinaryService>();
