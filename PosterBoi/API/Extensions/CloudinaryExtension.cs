@@ -6,7 +6,12 @@ namespace PosterBoi.API.Extensions
     {
         public static IServiceCollection AddCloudinaryConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+            services.Configure<CloudinarySettings>(options =>
+            {
+                options.CloudName = configuration["CLOUDINARY_CLOUDNAME"]!;
+                options.ApiKey = configuration["CLOUDINARY_APIKEY"]!;
+                options.ApiSecret = configuration["CLOUDINARY_APISECRET"]!;
+            });
 
             return services;
         }

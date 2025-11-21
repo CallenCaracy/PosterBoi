@@ -78,20 +78,5 @@ namespace PosterBoi.Infrastructure.Repositories
                 return false;
             }
         }
-
-        public async Task<bool> UpdateIsConfirmAsync(User user)
-        {
-            try
-            {
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to update column isConfirmed with Id: {UserId}.", user.Id);
-                return false;
-            }
-        }
     }
 }

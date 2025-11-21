@@ -13,6 +13,7 @@ namespace PosterBoi.Core.Interfaces.Services
         //Task<Result<IEnumerable<User>>> GetFriendsAsync(); Later when we do this
         Task<Result<User>> GetUserByIdAsync(Guid userId);
         Task<Result<bool>> ConfirmUserAsync(string token);
-        //Task<Result<bool>> ForgotPasswordAsync(string newPassword); We do this later
+        Task<Result<bool>> ForgotPasswordAsync(string email);
+        Task<Result<bool>> RecoverAccountAsync(string token, string newPassword);
     }
 }

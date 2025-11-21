@@ -10,6 +10,5 @@ namespace PosterBoi.Core.Interfaces.Repositories
         Task<bool> CreateUserAsync(User user);
         Task<bool> UpdateUserAsync(User user);
         //Task<Result<IEnumerable<User>>> GetFriendsAsync(); Later when we do this
-        Task<bool> UpdateIsConfirmAsync(User user);
     }
 }
