@@ -58,12 +58,23 @@ namespace PosterBoi
             });
 
             // Database
+            var connectionString = _configuration["POSTERBOI_DB_CONNECTION"];
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException("POSTERBOI_DB_CONNECTION environment variable is missing!");
+            }
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(_configuration.GetConnectionString("PosterBoiDBConnection")));
+                options.UseNpgsql(connectionString));
 
             // Email
-            services.Configure<EmailSettings>(
-                _configuration.GetSection("EmailSettings"));
+            services.Configure<EmailSettings>(options =>
+            {
+                options.Host = _configuration["EMAIL_HOST"]!;
+                options.Port = int.Parse(_configuration["EMAIL_PORT"] ?? "587");
+                options.Username = _configuration["EMAIL_USERNAME"]!;
+                options.Password = _configuration["EMAIL_PASSWORD"]!;
+                options.From = _configuration["EMAIL_FROM"]!;
+            });
             services.AddTransient<IEmailService, EmailService>();
 
             // Cloudinary
@@ -100,6 +111,12 @@ namespace PosterBoi
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
             }
 
             app.UseHttpsRedirection();
