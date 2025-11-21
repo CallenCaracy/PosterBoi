@@ -81,15 +81,34 @@ namespace PosterBoi.API.Controllers.v1
             return Ok(result.Data);
         }
 
-        [HttpGet("confirm")]
+        [HttpPost("confirm")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
         {
             var result = await _authService.ConfirmUserAsync(token);
-
             if (!result.Success)
                 return BadRequest("Error confirming email.");
 
             return Ok("Account confirmed.");
+        }
+
+        [HttpPost("forgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
+            var result = await _authService.ForgotPasswordAsync(email);
+            if (!result.Success)
+                return BadRequest("Error initiating recovery email.");
+
+            return Ok("Account recovery sent.");
+        }
+
+        [HttpPost("recovery")]
+        public async Task<IActionResult> RecoveryAccount([FromBody] RecoveryRequestDto request)
+        {
+            var result = await _authService.RecoverAccountAsync(request.Token, request.NewPassword);
+            if (!result.Success)
+                return BadRequest("Error recovering email.");
+
+            return Ok("Account recovered successfully.");
         }
     }
 }

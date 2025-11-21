@@ -23,7 +23,7 @@
 _Planned features:_  
 
 - WebSocket chat                -> Next (WIP)
-- User authentication           -> Done -> Redo Add email confirmation and forgot password -> WIP
+- User authentication           -> Done -> Redo Add email confirmation and forgot password -> WIP -> Done
 - Likes and reactions system    -> Done
 
 ---
@@ -55,7 +55,7 @@ _Planned features:_
         ├───Migrations/          # EF Core migration history
         ├───Program.cs           # Application host and builder configuration
         ├───Startup.cs           # Service registration and middleware pipeline
-        └───appsettings.json     # Application configuration (ignored in Git)
+        └───appsettings.json     # Application configuration
 ```
 
 ---
@@ -151,4 +151,13 @@ _Planned features:_
     dotnet ef migrations add name
     dotnet ef database update
     ```
+---
+
+8. Database Operations
+
+    ```bash
+    docker build -t posterboi .
+    docker run -p 8080:8080 posterboi
+    ```
+
 ---
