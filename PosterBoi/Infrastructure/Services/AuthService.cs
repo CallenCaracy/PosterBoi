@@ -48,6 +48,32 @@ namespace PosterBoi.Infrastructure.Services
             return Result<Guid>.Ok(user.Id);
         }
 
+        public async Task<Result<bool>> ForgotPasswordAsync(string email)
+        {
+            var existing = await _userRepository.GetByEmailAsync(email);
+            if (existing == null)
+                return Result<bool>.Fail("Email doesn't exist, please enter an existing email.");
+
+            if (existing.Token != null)
+                return Result<bool>.Fail("A violation in the account has been detected, contact the administrator.");
+
+            existing.Token = TokenGenerator.GenerateSecureToken(32);
+
+            var isUpdated = await _userRepository.UpdateUserAsync(existing);
+            if (!isUpdated)
+                return Result<bool>.Fail("Failed to update and add token.");
+
+            var forgotPasswordLink = $"https://yourdomain.com/auth/confirm?token={existing.Token}";
+
+            var emailMessage =
+                $"<p>Click here to recover your account:</p> <a href='{forgotPasswordLink}'>Forgot Password</a>";
+
+            var emailSent = await _emailService.SendEmailAsync(existing.Email, Constanst.ForgotPasswordSubject, emailMessage);
+            if (!emailSent)
+                return Result<bool>.Fail("Failed to sent recovery email, please contact the administrator or head development.");
+            return Result<bool>.Ok(emailSent);
+        }
+
         public async Task<Result<Jwt>> LoginAsync(LoginDto request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
@@ -112,11 +138,28 @@ namespace PosterBoi.Infrastructure.Services
             existing.IsConfirmed = true;
             existing.Token = null;
 
-            var isConfirmed = await _userRepository.UpdateIsConfirmAsync(existing);
+            var isConfirmed = await _userRepository.UpdateUserAsync(existing);
             if (!isConfirmed)
                 return Result<bool>.Fail("Failed to confirm user account.");
 
             return Result<bool>.Ok(isConfirmed);
+        }
+
+        public async Task<Result<bool>> RecoverAccountAsync(string token, string newPassword)
+        {
+            var existing = await _userRepository.GetByTokenAsync(token);
+            if (existing == null)
+                return Result<bool>.Fail("Failed to find the account to recover.");
+
+            existing.Token = null;
+            existing.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            existing.UpdatedAt = DateTime.Now;
+
+            var isRecovered = await _userRepository.UpdateUserAsync(existing);
+            if (!isRecovered)
+                return Result<bool>.Fail("Failed to recover user account.");
+
+            return Result<bool>.Ok(isRecovered);
         }
     }
 }
