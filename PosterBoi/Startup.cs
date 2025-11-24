@@ -107,12 +107,6 @@ namespace PosterBoi
 
         public static void Configure(WebApplication app)
         {
-            //if (app.Environment.IsDevelopment())
-            //{
-            //    app.UseSwagger();
-            //    app.UseSwaggerUI();
-            //}
-
             app.UseSwagger();
             app.UseSwaggerUI();
 

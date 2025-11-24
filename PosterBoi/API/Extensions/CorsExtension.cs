@@ -9,7 +9,10 @@
                 options.AddPolicy("AllowedFrontend", builder =>
                 {
                     builder
-                        .WithOrigins()
+                        .WithOrigins(
+                            "http://localhost:5173",
+                            "http://localhost:3000"
+                        )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
