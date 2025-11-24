@@ -25,8 +25,8 @@ namespace PosterBoi.Infrastructure.Helpers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
+                issuer: _config["JWT_ISSUER"],
+                audience: _config["JWT_AUDIENCE"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: creds
