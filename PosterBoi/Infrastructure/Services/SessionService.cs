@@ -35,25 +35,20 @@ namespace PosterBoi.Infrastructure.Services
             }; 
         }
 
-        public async Task<Result<Jwt>> RefreshTokensAsync(string refreshToken)
+        public async Task<Result<string>> RefreshTokensAsync(string refreshToken)
         {
             var session = await _sessionRepository.GetByTokenAsync(refreshToken);
 
             if (session == null || session.IsRevoked || session.Expires < DateTime.UtcNow)
-                return Result<Jwt>.Fail("Invalid or expired refresh token.");
+                return Result<string>.Fail("Invalid or expired refresh token.");
 
             var user = session.User;
-            session.IsRevoked = true;
 
-            var isUpdated = await _sessionRepository.UpdateAsync(session);
-            if (!isUpdated)
-                return Result<Jwt>.Fail("Failed to update refresh token.");
-
-            var tokens = await GenerateTokens(user);
+            var tokens = _jwtHelper.GenerateJwtToken(user);
             if (tokens == null)
-                return Result<Jwt>.Fail("Failed to generate tokens.");
+                return Result<string>.Fail("Failed to generate tokens.");
 
-            return Result<Jwt>.Ok(tokens);
+            return Result<string>.Ok(tokens);
         }
 
         public async Task<bool> RevokeRefreshTokenAsync(string refreshToken)

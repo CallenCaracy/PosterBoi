@@ -18,21 +18,13 @@ namespace PosterBoi.API.Controllers.v1
             if (!result.Success)
                 return Unauthorized(result.Message);
 
-            var jwt = result.Data;
-            if (jwt == null)
+            var jwtToken = result.Data;
+            if (string.IsNullOrWhiteSpace(jwtToken))
                 return NotFound(result.Message);
-
-            Response.Cookies.Append("refreshToken", jwt.RefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddDays(30)
-            });
 
             return Ok(new
             {
-                accessToken = jwt.AccessToken,
+                accessToken = jwtToken,
             });
         }
     }
