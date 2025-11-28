@@ -36,14 +36,10 @@ namespace PosterBoi.Infrastructure.Services
             if (!isCreated)
                 return Result<Guid>.Fail("Failed to create user.");
 
-            var confirmationLink = $"https://yourdomain.com/auth/confirm?token={user.Token}";
+            var confirmationLink = $"https://posterboi.com/auth/confirm?token={user.Token}";
+            var emailMessage = $"<p>Click here to confirm your account:</p> <a href='{confirmationLink}'>Confirm Email</a>";
 
-            var emailMessage =
-                $"<p>Click here to confirm your account:</p> <a href='{confirmationLink}'>Confirm Email</a>";
-
-            var emailSent = await _emailService.SendEmailAsync(user.Email, Constanst.ConfirmEmailSubject, emailMessage);
-            if (!emailSent)
-                return Result<Guid>.Fail("Failed to sent confirmation email, please contact the administrator or head development.");
+            _ = _emailService.SendEmailAsync(user.Email, Constanst.ConfirmEmailSubject, emailMessage);
 
             return Result<Guid>.Ok(user.Id);
         }
@@ -63,10 +59,9 @@ namespace PosterBoi.Infrastructure.Services
             if (!isUpdated)
                 return Result<bool>.Fail("Failed to update and add token.");
 
-            var forgotPasswordLink = $"https://yourdomain.com/auth/confirm?token={existing.Token}";
+            var forgotPasswordLink = $"https://posterboi.com/auth/recover?token={existing.Token}";
 
-            var emailMessage =
-                $"<p>Click here to recover your account:</p> <a href='{forgotPasswordLink}'>Forgot Password</a>";
+            var emailMessage =$"<p>Click here to recover your account:</p> <a href='{forgotPasswordLink}'>Forgot Password</a>";
 
             var emailSent = await _emailService.SendEmailAsync(existing.Email, Constanst.ForgotPasswordSubject, emailMessage);
             if (!emailSent)

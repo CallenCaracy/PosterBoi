@@ -115,7 +115,8 @@ namespace PosterBoi
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 db.Database.Migrate();
             }
-
+            
+            app.UseCors("AllowedFrontend");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
