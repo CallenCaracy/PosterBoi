@@ -12,9 +12,13 @@ namespace PosterBoi.API.Controllers.v1
         private readonly ISessionService _sessionService = sessionService;
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] RefreshSessionDto request)
+        public async Task<IActionResult> Refresh()
         {
-            var result = await _sessionService.RefreshTokensAsync(request.RefreshToken);
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                return BadRequest("Refresh token is empty");
+
+            var result = await _sessionService.RefreshTokensAsync(refreshToken);
             if (!result.Success)
                 return Unauthorized(result.Message);
 
