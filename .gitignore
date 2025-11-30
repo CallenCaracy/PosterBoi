@@ -1,5 +1,20 @@
-appsettings.Development.json
-appsettings.Production.json
+# Build stuff
+bin/
+obj/
+
+# Logs
+logs/
+*.log
+
+# Visual Studio junk
+*.user
+*.suo
+*.tmp
+
+# Secrets (IMPORTANT)
 appsettings.*.json
-appsettings.json
+
+# Generated files
+**/appsettings.*.json
+
 .vs
