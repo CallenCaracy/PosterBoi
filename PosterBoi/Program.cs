@@ -1,13 +1,24 @@
 using PosterBoi;
 using PosterBoi.API.Extensions;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File("logs/app.log",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 7,
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
-var startup = new PosterBoi.Startup(builder.Configuration);
+builder.Host.UseSerilog();
+
+var startup = new Startup(builder.Configuration);
 startup.ConfigureServices(builder.Services);
 
 builder.Services.AddAuthenticationJwt(builder);
-builder.AddLoggingConfiguration();
 
 var app = builder.Build();
 
