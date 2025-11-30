@@ -152,3 +152,17 @@ C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\refint\Po
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\PosterBoi.pdb
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\PosterBoi.genruntimeconfig.cache
 C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\obj\Debug\net8.0\ref\PosterBoi.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.AspNetCore.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+C:\Users\clare\OneDrive\Documents\PosterBoi\PosterBoi\bin\Debug\net8.0\Serilog.Sinks.File.dll
