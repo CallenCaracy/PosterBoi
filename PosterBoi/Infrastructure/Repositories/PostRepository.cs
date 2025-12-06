@@ -12,8 +12,6 @@ namespace PosterBoi.Infrastructure.Repositories
         private readonly AppDbContext _context = context;
         private readonly ILogger<PostRepository> _logger = logger;
 
-        // Some getters might be able to use AsNoTracking for better performance so check on this later or soon nigga
-
         public async Task<bool> CreatePostAsync(Post post)
         {
             try
@@ -29,7 +27,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<PostWithReactionCountDto>> GetAllPostsAsync(DateTime? after, int limit)
+        public async Task<IEnumerable<PostSummary>> GetAllPostsAsync(DateTime? after, int limit)
         {
             try
             {
@@ -38,7 +36,7 @@ namespace PosterBoi.Infrastructure.Repositories
                     query = query.Where(p => p.CreatedAt < after.Value);
 
                 var result = await query
-                    .Select(p => new PostWithReactionCountDto
+                    .Select(p => new PostSummary
                     {
                         Id = p.Id,
                         Title = p.Title,
@@ -52,6 +50,7 @@ namespace PosterBoi.Infrastructure.Repositories
                         User = new UserSummaryDto
                         {
                             Name = p.User.Name,
+                            Username = p.User.Username,
                             PfpUrl = p.User.PfpUrl,
                         }
                     })

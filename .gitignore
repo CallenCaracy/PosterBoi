@@ -12,6 +12,7 @@ logs/
 *.tmp
 
 # Secrets (IMPORTANT)
+appsettings.json
 appsettings.*.json
 
 # Generated files

@@ -23,7 +23,8 @@ namespace PosterBoi.Infrastructure.Services
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = request.Username,
+                Name = request.Name,
+                Username = request.Username,
                 Email = request.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 IsConfirmed = false,
@@ -100,8 +101,12 @@ namespace PosterBoi.Infrastructure.Services
             if (existing == null)
                 return Result<bool>.Fail("User to be updated doesn't exist.");
 
-            existing.Name = request.Username;
+            existing.Name = request.Name;
+            existing.Username = request.Username;
+            existing.Bio = request.Bio;
             existing.PfpUrl = request.PfpUrl;
+            existing.CoverPfpUrl = request.CoverPfpUrl;
+            existing.Address = request.Address;
             existing.Gender = request.Gender;
             existing.Birthday = request.Birthday;
             existing.UpdatedAt = DateTime.UtcNow;

@@ -34,12 +34,12 @@ namespace PosterBoi.Infrastructure.Services
             return Result<bool>.Ok(isCreated);
         }
 
-        public async Task<Result<IEnumerable<Comment>>> GetCommentsByPostIdAsync(int id)
+        public async Task<Result<IEnumerable<CommentSummaryDto>>> GetCommentsByPostIdAsync(int id)
         {
             var comments = await _commentRepository.GetCommentsByPostIdAsync(id);
             if (comments == null || !comments.Any())
-                return Result<IEnumerable<Comment>>.Fail("No comments found.");
-            return Result<IEnumerable<Comment>>.Ok(comments);
+                return Result<IEnumerable<CommentSummaryDto>>.Fail("No comments found.");
+            return Result<IEnumerable<CommentSummaryDto>>.Ok(comments);
         }
 
         public async Task<Result<Comment>> GetCommentByIdAsync(int id)

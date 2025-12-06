@@ -2,7 +2,8 @@
 {
     public class UserSummaryDto
     {
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
+        public string Username { get; set; } = null!;
         public string? PfpUrl { get; set; }
     }
 }

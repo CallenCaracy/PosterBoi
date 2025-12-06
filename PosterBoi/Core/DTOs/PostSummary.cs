@@ -2,7 +2,7 @@
 
 namespace PosterBoi.Core.DTOs
 {
-    public class PostWithReactionCountDto
+    public class PostSummary
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
