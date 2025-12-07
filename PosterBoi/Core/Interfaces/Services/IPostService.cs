@@ -9,7 +9,7 @@ namespace PosterBoi.Core.Interfaces.Services
         Task<Result<Post>> CreatePostAsync(PostDto request);
         Task<Result<Post>> UpdatePostAsync(int id, PostDto request);
         Task<Result<Post?>> GetPostByIdAsync(int id);
-        Task<Result<IEnumerable<PostWithReactionCountDto>>> GetAllPostsAsync(DateTime? after, int limit);
+        Task<Result<IEnumerable<PostSummary>>> GetAllPostsAsync(DateTime? after, int limit);
         Task<Result<IEnumerable<Post>>> GetPostsByUserIdAsync(Guid userId);
         Task<Result<bool>> DeletePostAsync(int id);
     }

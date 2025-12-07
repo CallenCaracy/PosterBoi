@@ -6,8 +6,12 @@ namespace PosterBoi.Core.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
         public required string Email { get; set; }
         public required string Password { get; set; }
+        public string? Bio { get; set; }
+        public string? Address { get; set; }
+        public string? CoverPfpUrl { get; set; }
         public string? PfpUrl { get; set; }
         public bool? Gender { get; set; }
         public DateTime? Birthday { get; set; }

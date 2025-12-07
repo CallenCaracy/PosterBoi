@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PosterBoi.Core.Configs;
+using PosterBoi.Core.DTOs;
 using PosterBoi.Core.Interfaces.Repositories;
 using PosterBoi.Core.Models;
 using PosterBoi.Infrastructure.Data;
@@ -36,14 +37,52 @@ namespace PosterBoi.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(int id)
+        public async Task<IEnumerable<CommentSummaryDto>> GetCommentsByPostIdAsync(int id)
         {
             try
             {
                 var comments = await _context.Comments
                     .Where(c => c.PostId == id && c.ParentCommentId == null)
                     .Include(c => c.ChildComments)
+                    .Select(c => new CommentSummaryDto
+                    {
+                        Id = c.Id,
+                        CommentMessage = c.CommentMessage,
+                        ImgUrl = c.ImgUrl,
+                        PostId = c.PostId,
+                        UserId = c.UserId,
+                        CreatedAt = c.CreatedAt,
+                        UpdatedAt = c.UpdatedAt,
+                        ParentCommentId = c.ParentCommentId,
+                        User = new UserSummaryDto
+                        {
+                            Name = c.User.Name,
+                            Username = c.User.Username,
+                            PfpUrl = c.User.PfpUrl,
+                        },
+
+                        ChildComments = c.ChildComments.Select(cc => new CommentSummaryDto
+                        {
+                            Id = cc.Id,
+                            CommentMessage = cc.CommentMessage,
+                            ImgUrl = cc.ImgUrl,
+                            PostId = cc.PostId,
+                            UserId = cc.UserId,
+                            CreatedAt = cc.CreatedAt,
+                            UpdatedAt = cc.UpdatedAt,
+                            ParentCommentId = cc.ParentCommentId,
+                            User = new UserSummaryDto
+                            {
+                                Name = cc.User.Name,
+                                Username = cc.User.Username,
+                                PfpUrl = cc.User.PfpUrl,
+                            },
+                        })
+                        .OrderByDescending(cc => cc.CreatedAt)
+                        .ToList()
+                    })
                     .ToListAsync();
+
                 return comments;
             }
             catch (Exception ex)
