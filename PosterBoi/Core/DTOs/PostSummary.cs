@@ -13,8 +13,9 @@ namespace PosterBoi.Core.DTOs
 
         public Guid UserId { get; set; }
         public UserSummaryDto User { get; set; } = null!;
-
         public int ReactionCount { get; set; }
+
+        public Dictionary<ReactionType, int> ReactionSummary { get; set; } = null!;
         public int CommentCount { get; set; }
     }
 }

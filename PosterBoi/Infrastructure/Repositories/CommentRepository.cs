@@ -37,13 +37,20 @@ namespace PosterBoi.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<CommentSummaryDto>> GetCommentsByPostIdAsync(int id)
+        public async Task<IEnumerable<CommentSummaryDto>> GetCommentsByPostIdAsync(int id, DateTime? after, int limit)
         {
             try
             {
-                var comments = await _context.Comments
+                var query = _context.Comments
                     .Where(c => c.PostId == id && c.ParentCommentId == null)
-                    .Include(c => c.ChildComments)
+                    .OrderByDescending(c => c.CreatedAt)
+                    .AsQueryable();
+
+                if (after.HasValue)
+                    query = query.Where(c => c.CreatedAt < after.Value);
+
+                var comments = await query
+                    .Take(limit)
                     .Select(c => new CommentSummaryDto
                     {
                         Id = c.Id,
@@ -54,32 +61,35 @@ namespace PosterBoi.Infrastructure.Repositories
                         CreatedAt = c.CreatedAt,
                         UpdatedAt = c.UpdatedAt,
                         ParentCommentId = c.ParentCommentId,
+
                         User = new UserSummaryDto
                         {
                             Name = c.User.Name,
                             Username = c.User.Username,
-                            PfpUrl = c.User.PfpUrl,
+                            PfpUrl = c.User.PfpUrl
                         },
 
-                        ChildComments = c.ChildComments.Select(cc => new CommentSummaryDto
-                        {
-                            Id = cc.Id,
-                            CommentMessage = cc.CommentMessage,
-                            ImgUrl = cc.ImgUrl,
-                            PostId = cc.PostId,
-                            UserId = cc.UserId,
-                            CreatedAt = cc.CreatedAt,
-                            UpdatedAt = cc.UpdatedAt,
-                            ParentCommentId = cc.ParentCommentId,
-                            User = new UserSummaryDto
+                        ChildComments = c.ChildComments
+                            .OrderByDescending(cc => cc.CreatedAt)
+                            .Select(cc => new CommentSummaryDto
                             {
-                                Name = cc.User.Name,
-                                Username = cc.User.Username,
-                                PfpUrl = cc.User.PfpUrl,
-                            },
-                        })
-                        .OrderByDescending(cc => cc.CreatedAt)
-                        .ToList()
+                                Id = cc.Id,
+                                CommentMessage = cc.CommentMessage,
+                                ImgUrl = cc.ImgUrl,
+                                PostId = cc.PostId,
+                                UserId = cc.UserId,
+                                CreatedAt = cc.CreatedAt,
+                                UpdatedAt = cc.UpdatedAt,
+                                ParentCommentId = cc.ParentCommentId,
+
+                                User = new UserSummaryDto
+                                {
+                                    Name = cc.User.Name,
+                                    Username = cc.User.Username,
+                                    PfpUrl = cc.User.PfpUrl
+                                }
+                            })
+                            .ToList()
                     })
                     .ToListAsync();
 
@@ -87,7 +97,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to fetch comments by post id: {Id}", id);
+                _logger.LogError(ex, "Failed to fetch comments by post id: {PostId}", id);
                 return [];
             }
         }

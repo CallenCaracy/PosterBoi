@@ -35,7 +35,7 @@ namespace PosterBoi.Infrastructure.Repositories
                 if (after.HasValue)
                     query = query.Where(p => p.CreatedAt < after.Value);
 
-                var result = await query
+                var posts = await query
                     .Select(p => new PostSummary
                     {
                         Id = p.Id,
@@ -46,6 +46,10 @@ namespace PosterBoi.Infrastructure.Repositories
                         CreatedAt = p.CreatedAt,
                         UpdatedAt = p.UpdatedAt,
                         ReactionCount = p.Reactions.Count,
+                        ReactionSummary = p.Reactions
+                            .GroupBy(r => r.Type)
+                            .Select(g => new { Type = g.Key, Count = g.Count() })
+                            .ToDictionary(g => g.Type, g => g.Count),
                         CommentCount = p.Comments.Count,
                         User = new UserSummaryDto
                         {
@@ -57,7 +61,7 @@ namespace PosterBoi.Infrastructure.Repositories
                     .Take(limit)
                     .ToListAsync();
 
-                return result;
+                return posts;
             }
             catch (Exception ex) 
             {

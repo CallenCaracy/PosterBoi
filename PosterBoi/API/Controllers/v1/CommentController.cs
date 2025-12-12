@@ -23,9 +23,9 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpGet("getCommentsByPostId/{postId}")]
-        public async Task<IActionResult> GetCommentsByPostId(int postId)
+        public async Task<IActionResult> GetCommentsByPostId(int postId, DateTime? after, int limit)
         {
-            var result = await _commentService.GetCommentsByPostIdAsync(postId);
+            var result = await _commentService.GetCommentsByPostIdAsync(postId, after, limit);
             if (!result.Success) return BadRequest(result.Message); 
             return Ok(result);
         }
