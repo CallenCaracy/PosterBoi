@@ -42,31 +42,33 @@ namespace PosterBoi.Infrastructure.Repositories
                     query = query.Where(p => p.CreatedAt < after.Value);
 
                 var posts = await query
-                    .Select(p => new PostSummary
-                    {
-                        Id = p.Id,
-                        Title = p.Title,
-                        Description = p.Description,
-                        ImgUrl = p.ImgUrl,
-                        UserId = p.UserId,
-                        CreatedAt = p.CreatedAt,
-                        UpdatedAt = p.UpdatedAt,
-                        ReactionCount = p.Reactions.Count,
-                        ReactionSummary = p.Reactions
-                            .GroupBy(r => r.Type)
-                            .ToDictionary(g => g.Key, g => g.Count()),
-                        CommentCount = p.Comments.Count,
-                        User = p.User != null ? new UserSummaryDto
+                    .Take(limit)
+                    .ToListAsync();
+
+                var postSummaries = posts.Select(p => new PostSummary
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ImgUrl = p.ImgUrl,
+                    UserId = p.UserId,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    ReactionCount = p.Reactions.Count,
+                    ReactionSummary = p.Reactions
+                        .GroupBy(r => r.Type)
+                        .ToDictionary(g => g.Key, g => g.Count()),
+                    CommentCount = p.Comments.Count,
+                    User = new UserSummaryDto
                         {
                             Name = p.User.Name,
                             Username = p.User.Username,
                             PfpUrl = p.User.PfpUrl,
-                        } : null
+                        }
                     })
-                    .Take(limit)
-                    .ToListAsync();
+                    .ToList();
 
-                return posts;
+                return postSummaries;
             }
             catch (Exception ex) 
             {
