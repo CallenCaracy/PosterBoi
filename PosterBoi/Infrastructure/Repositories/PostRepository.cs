@@ -35,7 +35,6 @@ namespace PosterBoi.Infrastructure.Repositories
                     .Include(p => p.User)
                     .Include(p => p.Reactions)
                     .Include(p => p.Comments)
-                    .Where(p => !p.IsDeleted && p.IsPublished)
                     .OrderByDescending(p => p.CreatedAt)
                     .AsQueryable();
 
