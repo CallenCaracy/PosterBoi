@@ -31,7 +31,14 @@ namespace PosterBoi.Infrastructure.Repositories
         {
             try
             {
-                var query = _context.Posts.OrderByDescending(post => post.CreatedAt).AsQueryable();
+                var query = _context.Posts
+                    .Include(p => p.User)
+                    .Include(p => p.Reactions)
+                    .Include(p => p.Comments)
+                    .Where(p => !p.IsDeleted && p.IsPublished)
+                    .OrderByDescending(p => p.CreatedAt)
+                    .AsQueryable();
+
                 if (after.HasValue)
                     query = query.Where(p => p.CreatedAt < after.Value);
 
@@ -48,15 +55,14 @@ namespace PosterBoi.Infrastructure.Repositories
                         ReactionCount = p.Reactions.Count,
                         ReactionSummary = p.Reactions
                             .GroupBy(r => r.Type)
-                            .Select(g => new { Type = g.Key, Count = g.Count() })
-                            .ToDictionary(g => g.Type, g => g.Count),
+                            .ToDictionary(g => g.Key, g => g.Count()),
                         CommentCount = p.Comments.Count,
-                        User = new UserSummaryDto
+                        User = p.User != null ? new UserSummaryDto
                         {
                             Name = p.User.Name,
                             Username = p.User.Username,
                             PfpUrl = p.User.PfpUrl,
-                        }
+                        } : null
                     })
                     .Take(limit)
                     .ToListAsync();
