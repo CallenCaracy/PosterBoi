@@ -19,7 +19,7 @@ namespace PosterBoi.API.Controllers.v1
         {
             var result = await _postService.CreatePostAsync(request);
             if (!result.Success) return BadRequest(result.Message);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("getAllPosts")]
@@ -27,7 +27,7 @@ namespace PosterBoi.API.Controllers.v1
         {
             var result = await _postService.GetAllPostsAsync(after, limit);
             if (!result.Success) return NotFound(result.Message);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("getPostById/{id}")]
@@ -35,7 +35,7 @@ namespace PosterBoi.API.Controllers.v1
         {
             var result = await _postService.GetPostByIdAsync(id);
             if (!result.Success) return NotFound(result.Message);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("getPostsByUserID/{userId}")]
@@ -43,7 +43,7 @@ namespace PosterBoi.API.Controllers.v1
         {
             var result = await _postService.GetPostsByUserIdAsync(userId);
             if (!result.Success) return NotFound(result.Message);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpPut("updatePost/{id}")]
@@ -52,7 +52,7 @@ namespace PosterBoi.API.Controllers.v1
         {
             var result = await _postService.UpdatePostAsync(id, request);
             if (!result.Success) return BadRequest(result.Message);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpDelete("deletePost/{id}")]
@@ -61,7 +61,7 @@ namespace PosterBoi.API.Controllers.v1
         {
             var result = await _postService.DeletePostAsync(id);
             if (!result.Success) return BadRequest(result.Message);
-            return Ok(result.Data);
+            return Ok(result);
         }
     }
 }

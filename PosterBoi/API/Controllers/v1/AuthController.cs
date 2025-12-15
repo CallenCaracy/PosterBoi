@@ -20,7 +20,7 @@ namespace PosterBoi.API.Controllers.v1
             if (!result.Success)
                 return NotFound(result.Message);
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpPost("login")]
@@ -56,7 +56,7 @@ namespace PosterBoi.API.Controllers.v1
             if (!result.Success)
                 return BadRequest("Invalid token");
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpPatch("updateUser/{UserId}")]
@@ -67,7 +67,7 @@ namespace PosterBoi.API.Controllers.v1
             if (!result.Success)
                 return BadRequest("Failed to update user.");
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("getUserById/{UserId}")]
@@ -78,7 +78,7 @@ namespace PosterBoi.API.Controllers.v1
             if (!result.Success)
                 return BadRequest("Failed to update user.");
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpPost("confirm")]

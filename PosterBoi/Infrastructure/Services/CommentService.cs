@@ -34,9 +34,9 @@ namespace PosterBoi.Infrastructure.Services
             return Result<bool>.Ok(isCreated);
         }
 
-        public async Task<Result<IEnumerable<CommentSummaryDto>>> GetCommentsByPostIdAsync(int id)
+        public async Task<Result<IEnumerable<CommentSummaryDto>>> GetCommentsByPostIdAsync(int id, DateTime? after, int limit)
         {
-            var comments = await _commentRepository.GetCommentsByPostIdAsync(id);
+            var comments = await _commentRepository.GetCommentsByPostIdAsync(id, after, limit);
             if (comments == null || !comments.Any())
                 return Result<IEnumerable<CommentSummaryDto>>.Fail("No comments found.");
             return Result<IEnumerable<CommentSummaryDto>>.Ok(comments);
