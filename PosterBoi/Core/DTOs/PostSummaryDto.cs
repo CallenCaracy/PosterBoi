@@ -2,7 +2,7 @@
 
 namespace PosterBoi.Core.DTOs
 {
-    public class PostSummary
+    public class PostSummaryDto
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -15,7 +15,7 @@ namespace PosterBoi.Core.DTOs
         public UserSummaryDto User { get; set; } = null!;
         public int ReactionCount { get; set; }
 
-        public Dictionary<ReactionType, int> ReactionSummary { get; set; } = null!;
+        public ReactionSummaryDto ReactionSummary { get; set; } = null!;
         public int CommentCount { get; set; }
     }
 }

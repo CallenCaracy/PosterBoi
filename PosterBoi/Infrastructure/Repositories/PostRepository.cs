@@ -27,7 +27,7 @@ namespace PosterBoi.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<PostSummary>> GetAllPostsAsync(DateTime? after, int limit)
+        public async Task<IEnumerable<PostSummaryDto>> GetAllPostsAsync(DateTime? after, int limit, Guid? userId)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace PosterBoi.Infrastructure.Repositories
                     .Take(limit)
                     .ToListAsync();
 
-                var postSummaries = posts.Select(p => new PostSummary
+                var postSummaries = posts.Select(p => new PostSummaryDto
                 {
                     Id = p.Id,
                     Title = p.Title,
@@ -55,9 +55,14 @@ namespace PosterBoi.Infrastructure.Repositories
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt,
                     ReactionCount = p.Reactions.Count,
-                    ReactionSummary = p.Reactions
-                        .GroupBy(r => r.Type)
-                        .ToDictionary(g => g.Key, g => g.Count()),
+                    ReactionSummary = new ReactionSummaryDto
+                    {
+                        ReactionTypes = p.Reactions
+                            .GroupBy(r => r.Type)
+                            .ToDictionary(g => g.Key, g => g.Count()),
+                        UserReactionId = userId != null ? p.Reactions.FirstOrDefault(r => r.UserId == userId)?.Id : null,
+                        UserReactionName = userId != null ? p.Reactions.FirstOrDefault(r => r.UserId == userId)?.Type.ToString() : null,
+                    },
                     CommentCount = p.Comments.Count,
                     User = new UserSummaryDto
                         {

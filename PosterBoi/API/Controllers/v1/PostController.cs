@@ -23,9 +23,9 @@ namespace PosterBoi.API.Controllers.v1
         }
 
         [HttpGet("getAllPosts")]
-        public async Task<IActionResult> GetAllPosts(DateTime? after, int limit)
+        public async Task<IActionResult> GetAllPosts(DateTime? after, int limit, Guid? userId)
         {
-            var result = await _postService.GetAllPostsAsync(after, limit);
+            var result = await _postService.GetAllPostsAsync(after, limit, userId);
             if (!result.Success) return NotFound(result.Message);
             return Ok(result);
         }
