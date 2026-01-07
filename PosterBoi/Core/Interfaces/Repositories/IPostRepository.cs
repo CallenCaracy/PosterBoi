@@ -6,7 +6,7 @@ namespace PosterBoi.Core.Interfaces.Repositories
     public interface IPostRepository
     {
         Task<bool> CreatePostAsync(Post post);
-        Task<IEnumerable<PostSummary>> GetAllPostsAsync(DateTime? after, int limit);
+        Task<IEnumerable<PostSummaryDto>> GetAllPostsAsync(DateTime? after, int limit, Guid? userId);
         Task<Post?> GetByIdAsync(int id);
         Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId);
         Task<bool> UpdatePostAsync(Post post);
